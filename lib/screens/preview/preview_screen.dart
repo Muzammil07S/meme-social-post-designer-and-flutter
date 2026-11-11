@@ -1,4 +1,4 @@
-// PERSON 2 & 3: Preview & Save to SQLite Database
+// Preview & Save to SQLite Database
 import 'package:flutter/material.dart';
 import '../../database/database_helper.dart';
 import '../../models/design.dart';
@@ -152,8 +152,8 @@ class PreviewScreen extends StatelessWidget {
                         title: template.isNotEmpty ? template : 'Custom Design',
                         text: text,
                         bottomText: bottomText,
-                        backgroundColorValue: bg.toARGB32(),
-                        textColorValue: color.toARGB32(),
+                        backgroundColorValue: bg.value,
+                        textColorValue: color.value,
                         fontSize: size,
                       );
                       await DatabaseHelper.instance.insertDesign(newDesign);
