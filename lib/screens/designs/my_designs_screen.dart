@@ -137,13 +137,11 @@ class _MyDesignsScreenState extends State<MyDesignsScreen> {
             ),
     );
   }
-
   Widget _buildMiniPreview(Design d) {
     final template = d.title.toLowerCase();
     final isMeme = template.contains('meme');
     final bg = Color(d.backgroundColorValue);
     final textColor = Color(d.textColorValue);
-
     return Container(
       decoration: BoxDecoration(
         color: bg,
