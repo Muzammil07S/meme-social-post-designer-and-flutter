@@ -1,5 +1,9 @@
 // OWNER: Person 1  (Bottom Navigation + Drawer)
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../database/firestore_service.dart';
+import '../../models/design.dart';
+import '../../providers/theme_provider.dart';
 import '../../routes/app_routes.dart';
 import '../gallery/gallery_screen.dart';
 import '../designs/my_designs_screen.dart';
@@ -18,13 +22,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+    final isDark = themeProvider.mode == ThemeMode.dark;
+
     return Scaffold(
-      appBar: AppBar(title: Text(_titles[_index]), actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
-        ),
-      ]),
+      appBar: AppBar(
+        title: Text(_titles[_index]),
+        actions: [
+          IconButton(
+            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: () => themeProvider.toggleTheme(!isDark),
+          ),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
+          ),
+        ],
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -36,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Icon(Icons.emoji_emotions, size: 48, color: Colors.white),
                   SizedBox(height: 8),
-                  Text('Meme & Post Designer',
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text('Meme & Post Designer (Firebase)',
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
