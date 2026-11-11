@@ -161,7 +161,7 @@ class PreviewScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Design saved to SQLite database successfully!')),
                         );
-                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.gallery, (route) => false);
                       }
                     },
                   ),

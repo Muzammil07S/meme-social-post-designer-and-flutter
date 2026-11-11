@@ -25,7 +25,7 @@ class GalleryScreen extends StatelessWidget {
         final t = _templates[i];
         final color = t['color'] as Color;
         return InkWell(
-          onTap: () => Navigator.pushNamed(context, AppRoutes.editor, arguments: {
+          onTap: () => Navigator.pushNamed(context, AppRoutes.preview, arguments: {
             'name': t['name'],
             'color': color,
             'icon': t['icon'],

@@ -98,7 +98,7 @@ class MyDesignsScreen extends StatelessWidget {
                             icon: const Icon(Icons.edit, size: 18),
                             label: const Text('Edit'),
                             onPressed: () async {
-                              await Navigator.pushNamed(context, AppRoutes.editor, arguments: {
+                              await Navigator.pushNamed(context, AppRoutes.preview, arguments: {
                                 'name': d.title,
                                 'color': Color(d.backgroundColorValue),
                               });
