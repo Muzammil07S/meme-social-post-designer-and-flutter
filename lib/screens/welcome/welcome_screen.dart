@@ -77,11 +77,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        AppRoutes.editor,
-                        arguments: {'name': 'Classic Meme'},
-                      );
+                      Navigator.pushReplacementNamed(context, AppRoutes.home);
                     } else {
                       _controller.nextPage(
                           duration: const Duration(milliseconds: 300),
