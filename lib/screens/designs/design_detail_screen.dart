@@ -22,8 +22,8 @@ class _DesignDetailScreenState extends State<DesignDetailScreen> {
     final isQuote = template.contains('quote');
     final isBirthday = template.contains('birthday');
     final isSale = template.contains('sale');
-    final bg = Color(d?.backgroundColorValue ?? Colors.deepPurple.value);
-    final textColor = Color(d?.textColorValue ?? Colors.white.value);
+    final bg = Color(d?.backgroundColorValue ?? 0xFF673AB7);
+    final textColor = Color(d?.textColorValue ?? 0xFFFFFFFF);
     final fontSize = d?.fontSize ?? 28.0;
 
     return Scaffold(

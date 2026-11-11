@@ -10,8 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.2
-  firebase_core: ^2.32.0
-  cloud_firestore: ^4.17.5
   path: ^1.9.0
 
 dev_dependencies:

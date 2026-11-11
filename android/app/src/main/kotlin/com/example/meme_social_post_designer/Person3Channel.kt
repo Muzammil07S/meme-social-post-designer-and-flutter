@@ -4,7 +4,7 @@ import android.app.Activity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
-// PERSON 3: Database / Storage / Search platform channel helper
+// PERSON 3: Search and Saved Designs platform channel helper
 // Created by Zeeshan (Person 3 folder, channel, and related screen integration)
 class Person3Channel(private val activity: Activity) {
     fun register(engine: FlutterEngine) {
