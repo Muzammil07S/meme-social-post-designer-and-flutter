@@ -1,8 +1,8 @@
-// Preview & Save to SQLite Database
+// Preview & Save to Frontend List
 import 'package:flutter/material.dart';
-import '../../database/database_helper.dart';
 import '../../models/design.dart';
 import '../../routes/app_routes.dart';
+import '../designs/my_designs_screen.dart';
 
 class PreviewScreen extends StatelessWidget {
   const PreviewScreen({super.key});
@@ -146,9 +146,10 @@ class PreviewScreen extends StatelessWidget {
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, foregroundColor: Colors.white),
                     icon: const Icon(Icons.save),
-                    label: const Text('Save to DB'),
-                    onPressed: () async {
+                    label: const Text('Save Design'),
+                    onPressed: () {
                       final newDesign = Design(
+                        id: DateTime.now().millisecondsSinceEpoch,
                         title: template.isNotEmpty ? template : 'Custom Design',
                         text: text,
                         bottomText: bottomText,
@@ -156,10 +157,10 @@ class PreviewScreen extends StatelessWidget {
                         textColorValue: color.value,
                         fontSize: size,
                       );
-                      await DatabaseHelper.instance.insertDesign(newDesign);
+                      MyDesignsScreen.designs.add(newDesign);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Design saved to SQLite database successfully!')),
+                          const SnackBar(content: Text('Design saved successfully!')),
                         );
                         Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                       }

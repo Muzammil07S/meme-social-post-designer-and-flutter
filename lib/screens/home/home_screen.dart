@@ -1,8 +1,6 @@
 // OWNER: Person 1  (Bottom Navigation + Drawer)
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../database/firestore_service.dart';
-import '../../models/design.dart';
 import '../../providers/theme_provider.dart';
 import '../../routes/app_routes.dart';
 import '../gallery/gallery_screen.dart';
@@ -31,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-            onPressed: () => themeProvider.toggleTheme(!isDark),
+            onPressed: () => themeProvider.toggle(!isDark),
           ),
           IconButton(
             icon: const Icon(Icons.search),
@@ -50,39 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Icon(Icons.emoji_emotions, size: 48, color: Colors.white),
                   SizedBox(height: 8),
-                  Text('Meme & Post Designer (Firebase)',
+                  Text('Meme & Post Designer (Frontend)',
                       style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('New Design'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.editor, arguments: {'name': 'Custom Design'});
-              },
-            ),
             _item(context, Icons.category, 'Categories', AppRoutes.categories),
             _item(context, Icons.emoji_emotions, 'Stickers', AppRoutes.stickers),
-            _item(context, Icons.favorite, 'Favorites', AppRoutes.favorites),
-            _item(context, Icons.person, 'Profile', AppRoutes.profile),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('About'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, AppRoutes.about);
-              },
-            ),
+            _item(context, Icons.folder, 'My Designs', AppRoutes.myDesigns),
+            _item(context, Icons.search, 'Search', AppRoutes.search),
           ],
         ),
       ),
       body: IndexedStack(index: _index, children: _pages),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, AppRoutes.editor, arguments: {'name': 'Custom Design'}),
-        child: const Icon(Icons.add),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
         onTap: (i) => setState(() => _index = i),

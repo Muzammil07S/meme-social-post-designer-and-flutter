@@ -1,8 +1,8 @@
-// PERSON 3: Search Designs in SQLite Database
+// PERSON 3: Search Saved Designs (100% Frontend)
 import 'package:flutter/material.dart';
-import '../../database/database_helper.dart';
 import '../../models/design.dart';
 import '../../routes/app_routes.dart';
+import '../designs/my_designs_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -14,11 +14,14 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Design> _results = [];
   bool _isLoading = false;
 
-  void _search(String query) async {
+  void _search(String query) {
     setState(() {
       _isLoading = true;
     });
-    final res = await DatabaseHelper.instance.searchDesigns(query);
+    final q = query.toLowerCase();
+    final res = MyDesignsScreen.designs.where((d) =>
+      d.title.toLowerCase().contains(q) || d.text.toLowerCase().contains(q) || (d.bottomText?.toLowerCase().contains(q) ?? false)
+    ).toList();
     setState(() {
       _results = res;
       _isLoading = false;
@@ -34,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search Database')),
+      appBar: AppBar(title: const Text('Search Designs')),
       body: Column(
         children: [
           Padding(
@@ -43,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(),
-                  hintText: 'Search database designs'),
+                  hintText: 'Search saved designs'),
               onChanged: _search,
             ),
           ),
@@ -51,16 +54,19 @@ class _SearchScreenState extends State<SearchScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _results.isEmpty
-                    ? const Center(child: Text('No matching designs found in database'))
+                    ? const Center(child: Text('No matching designs found'))
                     : ListView.builder(
                         itemCount: _results.length,
                         itemBuilder: (context, i) => ListTile(
-                          leading: const Icon(Icons.storage, color: Colors.deepPurple),
+                          leading: const Icon(Icons.design_services, color: Colors.deepPurple),
                           title: Text(_results[i].title),
                           subtitle: Text(_results[i].text),
-                          onTap: () => Navigator.pushNamed(
-                              context, AppRoutes.designDetail,
-                              arguments: _results[i]),
+                          onTap: () async {
+                            await Navigator.pushNamed(
+                                context, AppRoutes.designDetail,
+                                arguments: _results[i]);
+                            _search('');
+                          },
                         ),
                       ),
           ),
