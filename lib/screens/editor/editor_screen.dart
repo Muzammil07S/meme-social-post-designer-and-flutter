@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../routes/app_routes.dart';
+import '../../database/database_helper.dart';
+import '../../models/design.dart';
 
 class EditorScreen extends StatefulWidget {
   const EditorScreen({super.key});
@@ -124,6 +125,45 @@ class _EditorScreenState extends State<EditorScreen> {
     }
   }
 
+  void _showStickerPicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        const stickers = ['😂', '🔥', '😎', '🎉', '❤️', '🚀', '⭐', '💯', '👑', '🥳'];
+        return Container(
+          padding: const EdgeInsets.all(16),
+          height: 200,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Select Sticker / Emoji', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: 12),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+                  itemCount: stickers.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          _controller.text = '${_controller.text} ${stickers[index]}';
+                        });
+                      },
+                      child: Center(
+                        child: Text(stickers[index], style: const TextStyle(fontSize: 32)),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as Map?;
@@ -148,16 +188,25 @@ class _EditorScreenState extends State<EditorScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check, size: 28),
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.preview,
-                arguments: {
-                  'text': _controller.text,
-                  'bottomText': isMeme ? _bottomController.text : null,
-                  'size': _fontSize,
-                  'color': _textColor,
-                  'bg': _bgColor,
-                  'template': name,
-                  'icon': icon,
-                }),
+            onPressed: () async {
+              final design = Design(
+                title: name,
+                text: _controller.text,
+                bottomText: isMeme ? _bottomController.text : null,
+                backgroundColorValue: _bgColor.value,
+                textColorValue: _textColor.value,
+                fontSize: _fontSize,
+              );
+              await DatabaseHelper.instance.insertDesign(design);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Design saved to database successfully!'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),
@@ -275,7 +324,7 @@ class _EditorScreenState extends State<EditorScreen> {
               ),
             ),
 
-            // Modern Floating Bottom Control Panel (Matching Screenshot)
+            // Modern Floating Bottom Control Panel
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               padding: const EdgeInsets.all(16),
@@ -308,14 +357,7 @@ class _EditorScreenState extends State<EditorScreen> {
                           id: 'Stickers',
                           label: 'Stickers',
                           iconWidget: const Icon(Icons.auto_awesome_outlined, size: 22, color: Colors.grey),
-                          onTapCustom: () async {
-                            final sticker = await Navigator.pushNamed(context, AppRoutes.stickers);
-                            if (sticker != null && sticker is String) {
-                              setState(() {
-                                _controller.text = '${_controller.text} $sticker';
-                              });
-                            }
-                          },
+                          onTapCustom: () => _showStickerPicker(),
                         ),
                         const SizedBox(width: 8),
                         _buildToolTab(
@@ -376,7 +418,7 @@ class _EditorScreenState extends State<EditorScreen> {
                     height: 52,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF00897B), // Teal theme from screenshot
+                        backgroundColor: const Color(0xFF00897B),
                         foregroundColor: Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -423,7 +465,7 @@ class _EditorScreenState extends State<EditorScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFE0F2F1) : Colors.transparent, // Light Teal highlight
+          color: isSelected ? const Color(0xFFE0F2F1) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Column(

@@ -1,4 +1,4 @@
-// PERSON 1: Welcome / Onboarding (PageView)
+// OWNER: Person 1
 import 'package:flutter/material.dart';
 import '../../routes/app_routes.dart';
 
@@ -77,7 +77,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.pushReplacementNamed(context, AppRoutes.home);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.editor,
+                        arguments: {'name': 'Classic Meme'},
+                      );
                     } else {
                       _controller.nextPage(
                           duration: const Duration(milliseconds: 300),
