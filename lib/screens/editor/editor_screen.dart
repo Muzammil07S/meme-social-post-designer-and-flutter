@@ -340,7 +340,7 @@ class _EditorScreenState extends State<EditorScreen> {
                         // Quick Color Palette Dots on the Right
                         Row(
                           children: _paletteColors.map((c) {
-                            final isSelected = _textColor.toARGB32() == c.toARGB32();
+                            final isSelected = _textColor.value == c.value;
                             return GestureDetector(
                               onTap: () => setState(() => _textColor = c),
                               child: Container(
@@ -456,7 +456,7 @@ class _EditorScreenState extends State<EditorScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: _bgColors.map((c) {
-                  final isSelected = _bgColor.toARGB32() == c.toARGB32();
+                  final isSelected = _bgColor.value == c.value;
                   return GestureDetector(
                     onTap: () => setState(() => _bgColor = c),
                     child: Container(

@@ -153,8 +153,8 @@ class PreviewScreen extends StatelessWidget {
                         title: template.isNotEmpty ? template : 'Custom Design',
                         text: text,
                         bottomText: bottomText,
-                        backgroundColorValue: bg.toARGB32(),
-                        textColorValue: color.toARGB32(),
+                        backgroundColorValue: bg.value,
+                        textColorValue: color.value,
                         fontSize: size,
                       );
                       MyDesignsScreen.designs.add(newDesign);
