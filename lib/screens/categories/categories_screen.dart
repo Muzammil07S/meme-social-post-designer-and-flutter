@@ -1,6 +1,8 @@
 // PERSON 2: Template Categories (TabBar + TabController)
 import 'package:flutter/material.dart';
+import '../../models/design.dart';
 import '../../routes/app_routes.dart';
+import '../designs/my_designs_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -19,7 +21,7 @@ class CategoriesScreen extends StatelessWidget {
     'Birthday': {
       'color': Colors.pink,
       'icon': Icons.cake,
-      'items': ['Happy Bday', 'Party Time', 'Cake & Candles', 'Best Wishes', 'Celebration', 'Cheers']
+      'items': ['Happy Birthday', 'Party Time', 'Cake & Candles', 'Best Wishes', 'Celebration', 'Cheers']
     },
     'Motivation': {
       'color': Colors.indigo,
@@ -40,6 +42,16 @@ class CategoriesScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Categories & Templates'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.folder),
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.myDesigns),
+            ),
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             tabs: _tabsData.keys.map((k) => Tab(
@@ -62,11 +74,17 @@ class CategoriesScreen extends StatelessWidget {
               itemBuilder: (context, i) {
                 final templateName = items[i];
                 return InkWell(
-                  onTap: () => Navigator.pushNamed(context, AppRoutes.editor, arguments: {
-                    'name': templateName,
-                    'color': color,
-                    'icon': data['icon'] as IconData,
-                  }),
+                  onTap: () {
+                    final newDesign = Design(
+                      id: DateTime.now().millisecondsSinceEpoch,
+                      title: templateName,
+                      text: 'Sample text for $templateName',
+                      backgroundColorValue: color.value,
+                      textColorValue: Colors.white.value,
+                    );
+                    MyDesignsScreen.designs.add(newDesign);
+                    Navigator.pushNamed(context, AppRoutes.designDetail, arguments: newDesign);
+                  },
                   child: Card(
                     color: color,
                     elevation: 4,

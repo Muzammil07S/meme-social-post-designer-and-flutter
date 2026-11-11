@@ -20,12 +20,12 @@ class MemeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
-      title: 'Meme / Social Post Designer',
+      title: 'Meme / Social Post Designer - Zeeshan',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeProvider.mode,
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.categories,
       routes: AppRoutes.routes,
     );
   }

@@ -1,8 +1,7 @@
-// PERSON 3: Detail + delete dialog + SQLite database integration
+// PERSON 3: Detail + delete dialog + 100% Frontend integration
 import 'package:flutter/material.dart';
-import '../../database/database_helper.dart';
 import '../../models/design.dart';
-import '../favorites/favorites_screen.dart';
+import 'my_designs_screen.dart';
 
 class DesignDetailScreen extends StatefulWidget {
   const DesignDetailScreen({super.key});
@@ -15,7 +14,6 @@ class _DesignDetailScreenState extends State<DesignDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final d = ModalRoute.of(context)?.settings.arguments as Design?;
-    final isFav = FavoritesScreen.favorites.any((fav) => fav.id == d?.id);
 
     final template = (d?.title ?? '').toLowerCase();
     final isMeme = template.contains('meme');
@@ -30,29 +28,6 @@ class _DesignDetailScreenState extends State<DesignDetailScreen> {
       appBar: AppBar(
         title: Text(d?.title ?? 'Design Details'),
         actions: [
-          IconButton(
-            icon: Icon(
-              isFav ? Icons.favorite : Icons.favorite_border,
-              color: isFav ? Colors.red : null,
-            ),
-            onPressed: () {
-              setState(() {
-                if (isFav) {
-                  FavoritesScreen.favorites.removeWhere((fav) => fav.id == d?.id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Removed from favorites')),
-                  );
-                } else {
-                  if (d != null) {
-                    FavoritesScreen.favorites.add(d);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Added to favorites!')),
-                    );
-                  }
-                }
-              });
-            },
-          ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => _confirmDelete(context, d),
@@ -174,21 +149,20 @@ class _DesignDetailScreenState extends State<DesignDetailScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Delete design?'),
-        content: const Text('Yeh design database se hamesha ke liye delete ho jayega.'),
+        content: const Text('Yeh design hamesha ke liye delete ho jayega.'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
           TextButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.pop(ctx);
               Navigator.pop(context);
-              if (d != null && d.id != null) {
-                await DatabaseHelper.instance.deleteDesign(d.id!);
-                FavoritesScreen.favorites.removeWhere((item) => item.id == d.id);
+              if (d != null) {
+                MyDesignsScreen.designs.removeWhere((item) => item.id == d.id);
               }
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Design deleted from database')),
+                  const SnackBar(content: Text('Design deleted successfully')),
                 );
               }
             },
