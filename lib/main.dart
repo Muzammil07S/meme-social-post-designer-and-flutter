@@ -25,7 +25,7 @@ class MemeApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeProvider.mode,
-      initialRoute: AppRoutes.gallery,
+      initialRoute: AppRoutes.splash,
       routes: AppRoutes.routes,
     );
   }
