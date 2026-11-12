@@ -5,6 +5,7 @@ import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
@@ -20,12 +21,12 @@ class MemeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
-      title: 'Meme / Social Post Designer - Zeeshan',
+      title: 'Meme / Social Post Designer - Zeeshan Branch',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeProvider.mode,
-      initialRoute: AppRoutes.categories,
+      initialRoute: AppRoutes.myDesigns,
       routes: AppRoutes.routes,
     );
   }

@@ -33,15 +33,22 @@ class _MyDesignsScreenState extends State<MyDesignsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Designs'),
+        title: const Text('Person 3: Saved Designs'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.category),
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.categories),
+            icon: const Icon(Icons.search),
+            tooltip: 'Search Designs',
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
           ),
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
+            icon: const Icon(Icons.favorite),
+            tooltip: 'Favorites',
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.favorites),
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'About',
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.about),
           ),
         ],
       ),
@@ -118,7 +125,7 @@ class _MyDesignsScreenState extends State<MyDesignsScreen> {
                           children: [
                             TextButton.icon(
                               icon: const Icon(Icons.visibility, size: 18),
-                              label: const Text('View'),
+                              label: const Text('View Detail'),
                               onPressed: () async {
                                 await Navigator.pushNamed(context, AppRoutes.designDetail, arguments: d);
                                 setState(() {});
