@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _item(context, Icons.category, 'Categories', AppRoutes.categories),
             _item(context, Icons.emoji_emotions, 'Stickers', AppRoutes.stickers),
             _item(context, Icons.folder, 'My Designs', AppRoutes.myDesigns),
+            _item(context, Icons.favorite, 'Favorites', AppRoutes.favorites),
             _item(context, Icons.search, 'Search', AppRoutes.search),
           ],
         ),
