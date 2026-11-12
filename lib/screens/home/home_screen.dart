@@ -1,22 +1,10 @@
-// OWNER: Person 1  (Bottom Navigation + Drawer)
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../routes/app_routes.dart';
-import '../gallery/gallery_screen.dart';
-import '../designs/my_designs_screen.dart';
-import '../settings/settings_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _index = 0;
-  final _pages = const [GalleryScreen(), MyDesignsScreen(), SettingsScreen()];
-  final _titles = const ['Templates', 'My Designs', 'Settings'];
 
   @override
   Widget build(BuildContext context) {
@@ -25,63 +13,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_index]),
+        title: const Text('Meme & Social Post Designer'),
         actions: [
           IconButton(
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
             onPressed: () => themeProvider.toggle(!isDark),
           ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
-          ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF00897B)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Icon(Icons.emoji_emotions, size: 48, color: Colors.white),
-                  SizedBox(height: 8),
-                  Text('Meme & Post Designer (Frontend)',
-                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.emoji_emotions, size: 90, color: Colors.teal),
+              const SizedBox(height: 24),
+              const Text(
+                'Welcome to Meme & Post Designer',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-            ),
-            _item(context, Icons.category, 'Categories', AppRoutes.categories),
-            _item(context, Icons.emoji_emotions, 'Stickers', AppRoutes.stickers),
-            _item(context, Icons.folder, 'My Designs', AppRoutes.myDesigns),
-            _item(context, Icons.favorite, 'Favorites', AppRoutes.favorites),
-            _item(context, Icons.search, 'Search', AppRoutes.search),
-          ],
+              const SizedBox(height: 12),
+              const Text(
+                'Create stunning memes and social media posts easily with our editor.',
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 36),
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.editor),
+                icon: const Icon(Icons.edit),
+                label: const Text('Open Editor', style: TextStyle(fontSize: 18)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      body: IndexedStack(index: _index, children: _pages),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        onTap: (i) => setState(() => _index = i),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Templates'),
-          BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'My Designs'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
-    );
-  }
-
-  Widget _item(BuildContext context, IconData icon, String title, String route) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, route);
-      },
     );
   }
 }
