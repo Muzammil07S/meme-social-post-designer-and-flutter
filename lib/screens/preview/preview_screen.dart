@@ -1,7 +1,4 @@
-// PERSON 2 & 3: Preview & Save to SQLite Database
 import 'package:flutter/material.dart';
-import '../../database/database_helper.dart';
-import '../../models/design.dart';
 import '../../routes/app_routes.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -148,20 +145,11 @@ class PreviewScreen extends StatelessWidget {
                     icon: const Icon(Icons.save),
                     label: const Text('Save to DB'),
                     onPressed: () async {
-                      final newDesign = Design(
-                        title: template.isNotEmpty ? template : 'Custom Design',
-                        text: text,
-                        bottomText: bottomText,
-                        backgroundColorValue: bg.toARGB32(),
-                        textColorValue: color.toARGB32(),
-                        fontSize: size,
-                      );
-                      await DatabaseHelper.instance.insertDesign(newDesign);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Design saved to SQLite database successfully!')),
+                          const SnackBar(content: Text('Design saved successfully!')),
                         );
-                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.settings, (route) => false);
                       }
                     },
                   ),
